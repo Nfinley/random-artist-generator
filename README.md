@@ -1,2 +1,11 @@
-# random-artist-generator
-A simple app that uses OpenAI to fetch a random artist based on user parameters
+To install dependencies:
+```sh
+bun install
+```
+
+To run:
+```sh
+bun run dev
+```
+
+open http://localhost:3000

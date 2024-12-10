@@ -1,0 +1,13 @@
+{
+  "name": "src",
+  "scripts": {
+    "dev": "bun run --hot src/index.ts"
+  },
+  "dependencies": {
+    "hono": "^4.6.13",
+    "node-fetch": "^3.3.2"
+  },
+  "devDependencies": {
+    "@types/bun": "latest"
+  }
+}
