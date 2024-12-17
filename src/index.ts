@@ -3,11 +3,9 @@ import { html } from 'hono/html';
 import OpenAI from 'openai';
 
 /* TODO LIST: 
-1. Add logo
-2. Swap whole text with the table
-3. Add cache routes 
-4. Deploy to cloudflare
-5. Update styling
+1. Add custom font
+2. Update styling
+3. Use Twind to avoid entire tailwind css
 
 **/
 
@@ -19,16 +17,17 @@ type Bindings = {
 
 const app = new Hono<{ Bindings: Bindings }>();
 
-// app.get('/', (c) => {
-//   return c.text('Hello Hono!')
-// })
-
 app.use('/images/*', async (c, next) => {
   c.header('Cache-Control', 'public, max-age=31536000, immutable');
   return next();
 });
 
 app.use('/js/*', async (c, next) => {
+  c.header('Cache-Control', 'public, max-age=31536000, immutable');
+  return next();
+});
+
+app.use('/font/*', async (c, next) => {
   c.header('Cache-Control', 'public, max-age=31536000, immutable');
   return next();
 });
@@ -44,19 +43,67 @@ app.get('/', (c) => {
       <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link
+          rel="icon"
+          href="/images/favicon/favicon.ico"
+          type="image/x-icon"
+        />
+        <link
+          rel="icon"
+          type="image/png"
+          sizes="16x16"
+          href="/images/favicon/favicon-16x16.png"
+        />
+        <link
+          rel="icon"
+          type="image/png"
+          sizes="32x32"
+          href="/images/favicon/favicon-32x32.png"
+        />
+        <link
+          rel="apple-touch-icon"
+          sizes="180x180"
+          href="/images/favicon/apple-touch-icon.png"
+        />
+
+        <link rel="manifest" href="/images/favicon/site.webmanifest" />
+        <link
+          rel="icon"
+          type="image/png"
+          sizes="192x192"
+          href="/images/favicon/android-chrome-192x192.png"
+        />
+        <link
+          rel="icon"
+          type="image/png"
+          sizes="512x512"
+          href="/images/favicon/android-chrome-512x512.png"
+        />
         <title>Archie's Pick</title>
         <script src="https://cdn.tailwindcss.com"></script>
+        <style>
+        @font-face {
+          font-family: 'Rambors';
+          src: url('/font/RamborsRegular-lgRPX.otf') format('otf'),
+                url('/font/RamborsRegular-nR9nM.ttf') format('ttf');
+          font-weight: normal;
+          font-style: normal;
+    }
+        .font-retro {
+          font-family: 'Rambors', sans-serif; 
+        }
+        </style>
       </head>
       <body
-        class="bg-gray-100 min-h-screen flex flex-col items-center justify-center"
+        class="bg-[#051a1f] min-h-screen flex flex-col items-center justify-center"
       >
         <div class="p-12 mb-8 text-center">
           <div class="flex justify-center">
-            <img class="h-32 text-center" src="/images/APP_logo.jpg" alt="">
+            <img class="h-32 border-white border-2 rounded-xl text-center" src="/images/APP_logo.jpg" alt="">
 
           </div>
-          <h1 class="text-4xl font-bold mb-6 mt-8 text-center">Archie's Pick</h1>
-          <p>
+          <h1 class="font-retro text-white text-4xl font-bold mb-6 mt-8 text-center">Archie's Pick</h1>
+          <p class="text-white">
             Welcome! This little generator was inspired by my son as I want to
             expose him to all sorts of music and what better way then to select
             random artists
@@ -197,7 +244,9 @@ app.post('/api/random-artist', async (c) => {
     most_popular_song,
   } = jsonParsed;
 
-  return c.html(html`<h2 class="text-xl font-semibold mb-4">Your Pick:</h2>
+  return c.html(html`<h2 class="text-white text-xl font-semibold mb-4">
+      Your Random Artist Is:
+    </h2>
     <div class="w-full max-w-4xl bg-white rounded-lg shadow-lg overflow-hidden">
       <table class="w-full border-collapse">
         <thead>
