@@ -82,17 +82,35 @@ app.get('/', (c) => {
         <title>Archie's Pick</title>
         <script src="https://cdn.tailwindcss.com"></script>
         <style>
-        @font-face {
-          font-family: 'Rambors';
-          src: url('/font/RamborsRegular-lgRPX.otf') format('otf'),
-                url('/font/RamborsRegular-nR9nM.ttf') format('ttf');
-          font-weight: normal;
-          font-style: normal;
-    }
-        .font-retro {
-          font-family: 'Rambors', sans-serif; 
-        }
+          @font-face {
+            font-family: 'Rambors';
+            src: url('font/RamborsRegular-lgRPX.otf') format('opentype'),
+                 url('font/RamborsRegular-nR9nM.ttf') format('truetype');
+            font-weight: normal;
+            font-style: normal;
+          }
+          @font-face {
+            font-family: 'Roads';
+            src: url('font/Roads-p7j4d.ttf') format('truetype'),
+                 url('font/Roads-x3OZm.otf') format('opentype');
+            font-weight: normal;
+            font-style: normal;
+          }
+          .font-retro {
+            font-family: 'Rambors', sans-serif; 
+            font-weight: 400;
+            font-size: 5rem;
+          }
+          .font-roads { 
+            font-family: 'Roads', sans-serif;
+            font-weight: 400;
+            font-size: 5rem;
+          }
+          body {
+            font-family: Arial, sans-serif; /* Default fallback font */
+          }
         </style>
+  
       </head>
       <body
         class="bg-[#051a1f] min-h-screen flex flex-col items-center justify-center"
@@ -102,12 +120,13 @@ app.get('/', (c) => {
             <img class="h-32 border-white border-2 rounded-xl text-center" src="/images/APP_logo.jpg" alt="">
 
           </div>
-          <h1 class="font-retro text-white text-4xl font-bold mb-6 mt-8 text-center">Archie's Pick</h1>
-          <p class="text-white">
-            Welcome! This little generator was inspired by my son as I want to
-            expose him to all sorts of music and what better way then to select
-            random artists
-          </p>
+          <h1 class="font-retro text-white mb-6 mt-8 text-center">Archie's Pick</h1>
+          <div class="w-full lg:w-1/2 text-center">
+            <p class="text-white">
+              Welcome to the random artist generator! This little generator was inspired by my son as a way to expose him to all sorts of music. 
+              What a better way then to use OpenAI and randomly select an artist based on a genre and a decade. Enjoy!
+            </p>
+        </div>
         </div>
         <div id="main" class="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
           <form
@@ -132,11 +151,23 @@ app.get('/', (c) => {
                 <option value="Jazz">Jazz</option>
                 <option value="Rock">Rock</option>
                 <option value="Funk">Funk</option>
+                <option value="Hip-Hop/Rap">Hip-Hop/Rap</option>
+                <option value="R&B/Soul">R&B/Soul</option>
+                <option value="Electronic/Dance">Electronic/Dance</option>
+                <option value="Country">Country</option>
+                <option value="Classical">Classical</option>
+                <option value="Reggae">Reggae</option>
+                <option value="Latin">Latin</option>
+                <option value="Folk">Folk</option>
+                <option value="Blues">Blues</option>
+                <option value="Gospel">Gospel</option>
+                <option value="Lo-Fi">Lo-Fi</option>
+                <option value="Indie/Alternative">Indie/Alternative</option>
               </select>
               <button
                 type="button"
                 id="randomizeGenre"
-                class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+                class="bg-[#FAB142] text-white px-4 py-2 rounded hover:bg-yellow-600"
               >
                 Randomize Genre
               </button>
@@ -160,14 +191,14 @@ app.get('/', (c) => {
               <button
                 type="button"
                 id="randomizeDecade"
-                class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600"
+                class="bg-[#FAB142] text-white px-4 py-2 rounded hover:bg-yellow-600"
               >
                 Randomize Decade
               </button>
             </div>
             <button
               type="submit"
-              class="w-full bg-purple-500 text-white px-4 py-2 rounded hover:bg-purple-600"
+              class="w-full bg-[#1A8481] text-white px-4 py-2 rounded hover:bg-green-800"
             >
               Pick my Artist
             </button>
